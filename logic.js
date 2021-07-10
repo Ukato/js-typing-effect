@@ -1,61 +1,124 @@
-const TypeWriter = function(txtElement, words, wait = 3000) {
-  this.txtElement = txtElement;
-  this.words = words;
-  this.txt = '';
-  this.wordIndex = 0;
-  this.wait = parseInt(wait, 10);
-  this.type();
-  this.isDeleting = false;
-}
+// const TypeWriter = function(txtElement, words, wait = 3000) {
+//   this.txtElement = txtElement;
+//   this.words = words;
+//   this.txt = '';
+//   this.wordIndex = 0;
+//   this.wait = parseInt(wait, 10);
+//   this.type();
+//   this.isDeleting = false;
+// }
 
-// Type Method
-TypeWriter.prototype.type = function() {
-  // Current index of word
-  const current = this.wordIndex % this.words.length;
+// // Type Method
+// TypeWriter.prototype.type = function() {
+//   // Current index of word
+//   const current = this.wordIndex % this.words.length;
 
-  // Get full text of current word
-  const fullTxt = this.words[current];
+//   // Get full text of current word
+//   const fullTxt = this.words[current];
 
-  // Check if deleting
-  if(!this.isDeleting) {
-    // add char
-    this.txt = fullTxt.substring(0, this.txt.length + 1);
-  } else {
-    // remove char
-    this.txt = fullTxt.substring(0, this.txt.length - 1);
-  }
+//   // Check if deleting
+//   if(!this.isDeleting) {
+//     // add char
+//     this.txt = fullTxt.substring(0, this.txt.length + 1);
+//   } else {
+//     // remove char
+//     this.txt = fullTxt.substring(0, this.txt.length - 1);
+//   }
 
-  let blink = 'text-blink';
+//   let blink = 'text-blink';
 
-  // Initial Type Speed
-  let typeSpeed = 400;
+//   // Initial Type Speed
+//   let typeSpeed = 400;
 
-  if(this.isDeleting) {
-    typeSpeed /= 2;
-  }
+//   if(this.isDeleting) {
+//     typeSpeed /= 2;
+//   }
 
-  // If word is complete
-  if(!this.isDeleting && this.txt === fullTxt) {
-    // pause typing for a moment
-    typeSpeed = this.wait;
-    // Set delete to true
-    this.isDeleting = true;
-    // blink the cursor
-    blink = 'cursor-blink';
-  } else if(this.isDeleting && this.txt === '') {
-    // set boolean back to original value
+//   // If word is complete
+//   if(!this.isDeleting && this.txt === fullTxt) {
+//     // pause typing for a moment
+//     typeSpeed = this.wait;
+//     // Set delete to true
+//     this.isDeleting = true;
+//     // blink the cursor
+//     blink = 'cursor-blink';
+//   } else if(this.isDeleting && this.txt === '') {
+//     // set boolean back to original value
+//     this.isDeleting = false;
+//     this.wordIndex++;
+//     // pause before starting to type new word
+//     typeSpeed = 1500;
+//     // blink the cursor
+//     blink = 'cursor-blink';
+//   }
+
+//   // Insert txt into element
+//   this.txtElement.innerHTML = `<span class="txt ${blink}">${this.txt}</span>`;
+
+//   setTimeout(() =>this.type(), typeSpeed);
+// }
+
+
+// ES6 Class
+class TypeWriter {
+  constructor(txtElement, words, wait = 3000) {
+    this.txtElement = txtElement;
+    this.words = words;
+    this.txt = '';
+    this.wordIndex = 0;
+    this.wait = parseInt(wait, 10);
+    this.type();
     this.isDeleting = false;
-    this.wordIndex++;
-    // pause before starting to type new word
-    typeSpeed = 1500;
-    // blink the cursor
-    blink = 'cursor-blink';
   }
 
-  // Insert txt into element
-  this.txtElement.innerHTML = `<span class="txt ${blink}">${this.txt}</span>`;
+  type() {
+    // Current index of word
+    const current = this.wordIndex % this.words.length;
 
-  setTimeout(() =>this.type(), typeSpeed);
+    // Get full text of current word
+    const fullTxt = this.words[current];
+
+    // Check if deleting
+    if(!this.isDeleting) {
+      // add char
+      this.txt = fullTxt.substring(0, this.txt.length + 1);
+    } else {
+      // remove char
+      this.txt = fullTxt.substring(0, this.txt.length - 1);
+    }
+
+    let blink = 'text-blink';
+
+    // Initial Type Speed
+    let typeSpeed = 400;
+
+    if(this.isDeleting) {
+      typeSpeed /= 2;
+    }
+
+    // If word is complete
+    if(!this.isDeleting && this.txt === fullTxt) {
+      // pause typing for a moment
+      typeSpeed = this.wait;
+      // Set delete to true
+      this.isDeleting = true;
+      // blink the cursor
+      blink = 'cursor-blink';
+    } else if(this.isDeleting && this.txt === '') {
+      // set boolean back to original value
+      this.isDeleting = false;
+      this.wordIndex++;
+      // pause before starting to type new word
+      typeSpeed = 1500;
+      // blink the cursor
+      blink = 'cursor-blink';
+    }
+
+    // Insert txt into element
+    this.txtElement.innerHTML = `<span class="txt ${blink}">${this.txt}</span>`;
+
+    setTimeout(() =>this.type(), typeSpeed);
+  }
 }
 
 // Init on DOM load
