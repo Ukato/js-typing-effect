@@ -25,11 +25,10 @@ TypeWriter.prototype.type = function() {
     this.txt = fullTxt.substring(0, this.txt.length - 1);
   }
 
-  // Insert txt into element
-  this.txtElement.innerHTML = `<span class="txt text-blink">${this.txt}</span>`;
+  let blink = 'text-blink';
 
   // Initial Type Speed
-  let typeSpeed = 300;
+  let typeSpeed = 400;
 
   if(this.isDeleting) {
     typeSpeed /= 2;
@@ -41,13 +40,20 @@ TypeWriter.prototype.type = function() {
     typeSpeed = this.wait;
     // Set delete to true
     this.isDeleting = true;
+    // blink the cursor
+    blink = 'cursor-blink';
   } else if(this.isDeleting && this.txt === '') {
     // set boolean back to original value
     this.isDeleting = false;
     this.wordIndex++;
     // pause before starting to type new word
-    typeSpeed = 500;
+    typeSpeed = 1500;
+    // blink the cursor
+    blink = 'cursor-blink';
   }
+
+  // Insert txt into element
+  this.txtElement.innerHTML = `<span class="txt ${blink}">${this.txt}</span>`;
 
   setTimeout(() =>this.type(), typeSpeed);
 }

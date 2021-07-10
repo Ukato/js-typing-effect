@@ -55,7 +55,14 @@ body::after {
 .txt-type {
   margin-left: 1.2rem;
   display: inline;
+}
+
+.txt {
   border-right: 0.2rem solid rgba(255, 255, 255, 0.8);
+}
+
+.cursor-blink {
+  animation: cursorBlink 1s infinite ease-out, textBlink 1.5s forwards;
 }
 
 .text-blink {
@@ -68,6 +75,15 @@ body::after {
   }
   to {
     color: #000;
+  }
+}
+
+@keyframes cursorBlink {
+  from {
+    border-right: 0.2rem solid rgba(255, 255, 255, 0.8);
+  }
+  to {
+    border-right: 0.2rem solid transparent;
   }
 }
 
